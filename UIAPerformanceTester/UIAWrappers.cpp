@@ -116,6 +116,12 @@ std::wstring UIATextRange_GetText(IUIAutomationTextRange* pTextRange, int length
 	return _text?std::wstring(_text):L"";
 }
 
+void UIATextRange_ExpandToEnclosingUnit(IUIAutomationTextRange* textRange, TextUnit unit) {
+	HRESULT res;
+	res=textRange->ExpandToEnclosingUnit(unit);
+	if(FAILED(res)) VERIFY_FAIL(L"IUIAutomationTextRange::ExpandToEnclosingUnit");
+}
+
 int UIATextRange_Move(IUIAutomationTextRange* pTextRange, TextUnit unit, long count) {
 	HRESULT res;
 	int unitsMoved = 0;

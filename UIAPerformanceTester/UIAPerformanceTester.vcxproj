@@ -228,7 +228,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="testFiles\edgeDocument_readContent.html" />
+    <None Include="testFiles\edgeDocument_horizontalNavbar.html" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

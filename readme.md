@@ -27,8 +27,7 @@ This test framework is based upon Microsoft's Test Authoring and Execution Frame
  This is a basic test which opens a document in Microsoft Edge, and then fetches the name of the document, timing the specific call to fetch the name.
 This test is really just an example which ensures everything is working okay.
 
-### readContent
-This test opens a document in Microsoft Edge, and serializes all of its content into xml, using UI automation to walk the document structure.
- this document contains a list of several links, rather like a navigation bar on a web page.
- This test currently takes around 160 ms on a Microsoft Surface Pro 4, but the hope would be to get this down to less than 70 ms to boost reading performance of Edge documents with Screen readers.
- 
+### horizontalNavbar 
+This test opens a document in Edge containing a horizontal navbar made up of a list of 7 links.
+ It times how long it takes to gather all the content by walking the document with UI Automation, similarly to how a screen reader might gather information to speak the navbar as a line.
+  

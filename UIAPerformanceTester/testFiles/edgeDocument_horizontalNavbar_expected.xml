@@ -1,0 +1,88 @@
+<root>
+<UIAElement controlType="pane" name="Horizontal Navbar" >
+...
+<UIAElement controlType="header" name="" >
+...
+<UIAElement controlType="navigation" name="" >
+...
+<UIAElement controlType="list" name="" >
+...
+<UIAElement controlType="list item" name="Home" >
+<UIAElement controlType="link" name="Home" >
+<textRange "fontName":"Times New Roman" >
+Home
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+</textRange>
+<UIAElement controlType="list item" name="About" >
+<UIAElement controlType="link" name="About" >
+<textRange "fontName":"Times New Roman" >
+About
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+</textRange>
+<UIAElement controlType="list item" name="Download" >
+<UIAElement controlType="link" name="Download" >
+<textRange "fontName":"Times New Roman" >
+Download
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+</textRange>
+<UIAElement controlType="list item" name="News" >
+<UIAElement controlType="link" name="News" >
+<textRange "fontName":"Times New Roman" >
+News
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+</textRange>
+<UIAElement controlType="list item" name="Services" >
+<UIAElement controlType="link" name="Services" >
+<textRange "fontName":"Times New Roman" >
+Services
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+</textRange>
+<UIAElement controlType="list item" name="Shop" >
+<UIAElement controlType="link" name="Shop" >
+<textRange "fontName":"Times New Roman" >
+Shop
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+</textRange>
+<UIAElement controlType="list item" name="Support us" >
+<UIAElement controlType="link" name="Support us" >
+<textRange "fontName":"Times New Roman" >
+Support us
+</textRange>
+</UIAElement>
+</UIAElement>
+<textRange "fontName":"Times New Roman" >
+ 
+
+</textRange>
+</UIAElement>
+...
+</UIAElement>
+...
+</UIAElement>
+...
+</UIAElement>
+</root>

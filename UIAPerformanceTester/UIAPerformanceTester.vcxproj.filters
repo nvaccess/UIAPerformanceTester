@@ -66,13 +66,13 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="testFiles\edgeDocument_readContent.html">
-      <Filter>testFiles</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testFiles\edgeDocument_horizontalNavbar.html">
+      <Filter>testFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

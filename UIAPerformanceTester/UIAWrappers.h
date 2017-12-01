@@ -8,6 +8,9 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 
 #include "stdafx.h"
 
+// All the following functions are simply wrappers for existing UIAutomation methods, made c++ friendly.
+ // There is no extra functionality here.
+
 std::wstring UIAElement_GetCurrentName(IUIAutomationElement* element);
 CComPtr<IUIAutomationElement> UIA_GetFocusedElement(IUIAutomation* client);
 void UIACacheRequest_AddProperty(IUIAutomationCacheRequest* cacheRequest, int prop);
@@ -24,6 +27,7 @@ int UIATextRange_Move(IUIAutomationTextRange* pTextRange, TextUnit unit, long co
 CComVariant UIATextRange_GetAttributeValue(IUIAutomationTextRange* textRange, int attrib);
 std::vector<CComVariant> UIATextRange3_GetAttributeValues(IUIAutomationTextRange3* textRange, const std::vector<int> attribs);
 CComPtr<IUIAutomationTextRange> UIATextRange_Clone(IUIAutomationTextRange* pTextRange);
+void UIATextRange_ExpandToEnclosingUnit(IUIAutomationTextRange* textRange, TextUnit unit);
 int UIATextRange_CompareEndpoints(IUIAutomationTextRange* thisTextRange, enum TextPatternRangeEndpoint thisEndpoint, IUIAutomationTextRange* otherTextRange, enum TextPatternRangeEndpoint otherEndpoint);
 void UIATextRange_MoveEndpointByRange(IUIAutomationTextRange* thisTextRange, enum TextPatternRangeEndpoint thisEndpoint, IUIAutomationTextRange* otherTextRange, enum TextPatternRangeEndpoint otherEndpoint);
 CComPtr<IUIAutomationElement> UIATextRange_GetEnclosingElement(IUIAutomationTextRange* pTextRange);

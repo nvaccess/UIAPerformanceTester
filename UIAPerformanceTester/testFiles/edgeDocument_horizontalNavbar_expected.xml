@@ -9,72 +9,72 @@
 ...
 <UIAElement controlType="list item" name="Home" >
 <UIAElement controlType="link" name="Home" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 Home
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 </textRange>
 <UIAElement controlType="list item" name="About" >
 <UIAElement controlType="link" name="About" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 About
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 </textRange>
 <UIAElement controlType="list item" name="Download" >
 <UIAElement controlType="link" name="Download" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 Download
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 </textRange>
 <UIAElement controlType="list item" name="News" >
 <UIAElement controlType="link" name="News" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 News
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 </textRange>
 <UIAElement controlType="list item" name="Services" >
 <UIAElement controlType="link" name="Services" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 Services
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 </textRange>
 <UIAElement controlType="list item" name="Shop" >
 <UIAElement controlType="link" name="Shop" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 Shop
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 </textRange>
 <UIAElement controlType="list item" name="Support us" >
 <UIAElement controlType="link" name="Support us" >
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
 Support us
 </textRange>
 </UIAElement>
 </UIAElement>
-<textRange "fontName":"Times New Roman" >
+<textRange fontName="Times New Roman" fontSize="12.000000" >
  
 
 </textRange>

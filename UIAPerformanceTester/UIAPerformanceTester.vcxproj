@@ -75,7 +75,7 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WindowsSdkDir)\Testing\Development\inc</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Platform)_$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -83,7 +83,7 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WindowsSdkDir)\Testing\Development\inc</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Platform)_$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +91,7 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WindowsSdkDir)\Testing\Development\inc</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Platform)_$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -99,7 +99,7 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WindowsSdkDir)\Testing\Development\inc</IncludePath>
     <OutDir>$(SolutionDir)output\$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Platform)_$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

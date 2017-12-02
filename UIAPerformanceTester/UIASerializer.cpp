@@ -11,12 +11,14 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 
 std::wstring VariantToString(VARIANT& val) {
 	switch (val.vt) {
-	case VT_BSTR:
+		case VT_BSTR:
 		return (val.bstrVal ? val.bstrVal : L"");
-	case VT_I4:
-		std::wostringstream s;
-		s << val.lVal;
-		return s.str();
+		case VT_I4:
+		return std::to_wstring(val.lVal);
+		case VT_R8:
+		return std::to_wstring(val.dblVal);
+		case VT_R4:
+		return std::to_wstring(val.fltVal);
 	}
 	return L"";
 }
@@ -100,7 +102,7 @@ void UIATextContentSerializer::_serializeTextRange(std::wostream& log, IUIAutoma
 	for (auto attribIndex = 0; attribIndex<attribCount; ++attribIndex) {
 		std::wstring& name = textAttributeLabels[textAttributes[attribIndex]];
 		std::wstring val = VariantToString(attribValues[attribIndex]);
-		log << L"\"" << name << L"\":" << L"\"" << val << L"\" ";
+		log <<name<<L"=\""<<_escapeAttributeValue(val)<<L"\" ";
 	}
 	log << L">" << std::endl;
 	log << _escapeText(text) << std::endl;

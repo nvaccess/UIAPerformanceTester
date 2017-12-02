@@ -8,11 +8,16 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 
 #include "stdafx.h"
 
+// Allows the fetching of  content from a UIA text range, serialized as xml.
 class UIATextContentSerializer {
 public:
+	// Constructor
 	UIATextContentSerializer(IUIAutomation* client, IUIAutomationTextPattern* textPattern);
+	// Requests the UIASerializer to include the given UIA text attribute in its serialized XML for each text range.
 	void registerTextAttribute(const std::wstring& name, const int attrib);
+	// Requests the UIASerializer to include the given UIA element property in its serialized xml.
 	void registerElementProperty(const std::wstring& name, const int prop);
+	// Walks the given text range and descendants, creating a serialized xml representation of the content.
 	std::wstring serializeTextcontent(IUIAutomationTextRange* textRange);
 private:
 	CComPtr<IUIAutomation> client;

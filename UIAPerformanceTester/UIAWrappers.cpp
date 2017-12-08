@@ -139,11 +139,15 @@ CComVariant UIATextRange_GetAttributeValue(IUIAutomationTextRange* textRange, in
 std::vector<CComVariant> UIATextRange3_GetAttributeValues(IUIAutomationTextRange3* textRange, const std::vector<int> attribs) {
 	HRESULT res;
 	CComSafeArray<VARIANT> psa;
-	res = textRange->GetAttributeValues(attribs.data(), static_cast<int>(attribs.size()), &(psa.m_psa));
-	if (FAILED(res)) VERIFY_FAIL(L"IUIAutomationTextRange3::GetAttributeValues");
+	{
+		SAFEARRAY* _tempArray;
+		res = textRange->GetAttributeValues(attribs.data(), static_cast<int>(attribs.size()), &_tempArray);
+		if (FAILED(res)) VERIFY_FAIL(L"IUIAutomationTextRange3::GetAttributeValues");
+		psa.Attach(_tempArray);
+	}
 	long count = psa.GetCount();
 	std::vector<CComVariant> values;
-	for (long i = 0; i<count; ++i) {
+	for(long i = 0; i<count; ++i) {
 		VARIANT& val = psa.GetAt(i);
 		values.push_back(val);
 	}

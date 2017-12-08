@@ -16,8 +16,10 @@ This test framework is based upon Microsoft's Test Authoring and Execution Frame
 * Run (with no debugging) by pressing control+f5
  * Wait for the tests to finish.
 	* For those without vision, listen to the beeps:
-		* Each test starts with a low beep, and ends with a high beep.
-		* Once you hear the last high beep with no more low beep after, the tests have completed.
+	* The test run starts with a beep of 220 hz
+		* Each test starts with a beep of 330 hz 
+		* Each test ends with a beep of 660 hz
+		* The entire test run ends with a beep of 880 hz. 
 * View the status of each test in the console window left open.
 * Press any key to dismiss the console window.
 * A standard WTT-log file is also created in the output directory for further machine processing of the test results if required.

@@ -2,26 +2,26 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerCommand>$(WindowsSdkDir)\testing\runtimes\taef\$(PlatformTarget)\te.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /isolationlevel:Test</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(TargetDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /inproc</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LocalDebuggerCommand>$(WindowsSdkDir)\testing\runtimes\taef\$(PlatformTarget)\te.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /isolationlevel:Test</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(TargetDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /inproc</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>$(WindowsSdkDir)\testing\runtimes\taef\$(PlatformTarget)\te.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /isolationlevel:Test</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(TargetDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /inproc</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommand>$(WindowsSdkDir)\testing\runtimes\taef\$(PlatformTarget)\te.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /isolationlevel:Test</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(TargetDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>$(TargetPath) /enablewttlogging  /labmode /inproc</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

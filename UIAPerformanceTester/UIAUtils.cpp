@@ -11,6 +11,20 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 using namespace WEX::Logging;
 using namespace WEX::Common;
 
+std::wstring VariantToString(VARIANT& val) {
+	switch (val.vt) {
+	case VT_BSTR:
+		return (val.bstrVal ? val.bstrVal : L"");
+	case VT_I4:
+		return std::to_wstring(val.lVal);
+	case VT_R8:
+		return std::to_wstring(val.dblVal);
+	case VT_R4:
+		return std::to_wstring(val.fltVal);
+	}
+	return L"";
+}
+
 CComPtr<IUIAutomationElement> UIATextRangeX_GetEnclosingElementBuildCache(IUIAutomationTextRange* textRange, IUIAutomationCacheRequest* cacheRequest) {
 	CComQIPtr<IUIAutomationTextRange3> textRange3=textRange;
 	if(textRange3) {

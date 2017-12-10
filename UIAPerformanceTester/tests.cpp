@@ -32,6 +32,7 @@ MODULE_SETUP(moduleInit) {
 // A TAEF test class for testing UI Automation in Microsoft Edge
 class EdgeDocument {
 	TEST_CLASS(EdgeDocument);
+	HWND edgeWindow{nullptr};
 
 	// A setup method for all tests in this class which Launches Microsoft Edge
 	// And loads a specific document for each test.
@@ -47,7 +48,7 @@ class EdgeDocument {
 		RuntimeParameters::TryGetValue(L"TestDeploymentDir", testDir);
 		std::wstringstream URL;
 		URL << L"file:///" << static_cast<const wchar_t*>(testDir) << L"\\testFiles\\" << static_cast<const wchar_t*>(testName) << L".html";
-		launchEdgeWithURL(URL.str().c_str());
+		edgeWindow=launchEdgeWithURL(URL.str().c_str());
 		return true;
 	}
 
@@ -57,13 +58,14 @@ class EdgeDocument {
 	{
 		BEGIN_TEST_METHOD_PROPERTIES()
 			TEST_METHOD_PROPERTY(L"Description", L"Times fetching of document name")
-			END_TEST_METHOD_PROPERTIES()
-			CComPtr<IUIAutomationElement> focus = UIA_GetFocusedElement(UIAClient);
-		std::wstring name;
-		verifyTakesLessThan(L"IUIAutomationElement::get_currentName", 0.005, [&] {
-			name = UIAElement_GetCurrentName(focus);
+		END_TEST_METHOD_PROPERTIES()
+		CComPtr<IUIAutomationElement> document=locateEdgeDocumentUIAElement(UIAClient,edgeWindow,L"Edge Test Document");
+		CComVariant nameVal;
+		Sleep(2000);
+		verifyTakesLessThan(L"IUIAutomationElement::get_currentPropertyValue", 0.005, [&] {
+			nameVal = UIAElement_GetCurrentPropertyValue(document,UIA_NamePropertyId);
 		});
-		VERIFY_ARE_EQUAL(L"Edge Test Document", name);
+		VERIFY_ARE_EQUAL(L"Edge Test Document", VariantToString(nameVal));
 	}
 
 	// A test to time the serialization of a horizontal navbar of links
@@ -74,11 +76,11 @@ class EdgeDocument {
 			TEST_METHOD_PROPERTY(L"Description", L"Times fetching a line of links")
 			//TEST_METHOD_PROPERTY(L"Ignore", L"True")
 		END_TEST_METHOD_PROPERTIES()
-		// Get the focus (which will be the document).
-		CComPtr<IUIAutomationElement> focus = UIA_GetFocusedElement(UIAClient);
+		// try and locate the loaded document 
+		CComPtr<IUIAutomationElement> document = locateEdgeDocumentUIAElement(UIAClient, edgeWindow, L"Horizontal Navbar");
 		// Get the document's textPattern, and the textRange spanning the entire document
-		CComQIPtr<IUIAutomationTextPattern> textPattern = UIAElement_GetCurrentPattern(focus, UIA_TextPatternId);
-		if (!textPattern) VERIFY_FAIL(L"Focus element has no text pattern");
+		CComQIPtr<IUIAutomationTextPattern> textPattern = UIAElement_GetCurrentPattern(document, UIA_TextPatternId);
+		if (!textPattern) VERIFY_FAIL(L"document element has no text pattern");
 		// Fetch the range for the document 
 		CComPtr<IUIAutomationTextRange> textRange = UIATextPattern_GetDocumentRange(textPattern);
 		// collapse the range to the start
@@ -94,6 +96,8 @@ class EdgeDocument {
 		serializer.registerElementProperty(L"name", UIA_NamePropertyId);
 		serializer.registerElementProperty(L"controlType", UIA_LocalizedControlTypePropertyId);
 		std::wstring content;
+		// sleep for a while to ensure the document is not using much CPU
+		Sleep(2000); 
 		// Time the serialization of the horizontal navbar 
 		verifyTakesLessThan(L"UIATextContentSerializer::serializeTextcontent", 0.3, [&] {
 			content = serializer.serializeTextcontent(textRange);
@@ -111,9 +115,8 @@ class EdgeDocument {
 	}
 
 	TEST_METHOD_CLEANUP(methodCleanup) {
-		closeForegroundApp();
-		Sleep(1000);
-		// Close the Microsoft Edge window
+		// Close the Edge window
+		SendMessage(edgeWindow,WM_CLOSE,0,0);
 		Beep(660,100);
 		return true;
 	}

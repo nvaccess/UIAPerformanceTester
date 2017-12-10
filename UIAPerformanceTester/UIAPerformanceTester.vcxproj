@@ -111,6 +111,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;UIAPERFORMANCETESTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnablePREfast>false</EnablePREfast>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,6 +133,7 @@
       <PreprocessorDefinitions>_DEBUG;UIAPERFORMANCETESTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnablePREfast>false</EnablePREfast>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +156,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;UIAPERFORMANCETESTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnablePREfast>false</EnablePREfast>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,6 +181,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;UIAPERFORMANCETESTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnablePREfast>false</EnablePREfast>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -11,6 +11,11 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 // All the following functions are simply wrappers for existing UIAutomation methods, made c++ friendly.
  // There is no extra functionality here.
 
+CComPtr<IUIAutomationCondition> UIA_CreatePropertyCondition(IUIAutomation* client, PROPERTYID propertyID, const CComVariant& val);
+CComPtr<IUIAutomationCondition> UIA_CreateAndConditionFromArray(IUIAutomation* client, std::vector<IUIAutomationCondition*>& conditions);
+CComPtr<IUIAutomationElement> UIAElement_FindFirst(IUIAutomationElement* element, TreeScope scope, IUIAutomationCondition* condition);
+CComPtr<IUIAutomationElement> UIA_ElementFromHandle(IUIAutomation* client, HWND hwnd);
+CComPtr<IUnknown> UIAElement_GetCurrentPattern(IUIAutomationElement* element, int patternID);
 std::wstring UIAElement_GetCurrentName(IUIAutomationElement* element);
 CComPtr<IUIAutomationElement> UIA_GetFocusedElement(IUIAutomation* client);
 void UIACacheRequest_AddProperty(IUIAutomationCacheRequest* cacheRequest, int prop);

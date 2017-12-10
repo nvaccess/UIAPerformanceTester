@@ -8,6 +8,8 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 
 #include "stdafx.h"
 
+std::wstring VariantToString(VARIANT& val);
+
 // Fetches the enclosing element of a UIA text range, caching requested properties. 
 // Uses IUIAutomationTextRange3::GetEnclosingElementBuildCache if available,
 // Or falls back to IUIAutomationTextRange::GetEnclosingElement, and calls BuildUpdatedCache on the resulting element. 

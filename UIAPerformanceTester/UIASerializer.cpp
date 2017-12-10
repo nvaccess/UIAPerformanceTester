@@ -9,20 +9,6 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 #include "UIAUtils.h"
 #include "UIASerializer.h"
 
-std::wstring VariantToString(VARIANT& val) {
-	switch (val.vt) {
-		case VT_BSTR:
-		return (val.bstrVal ? val.bstrVal : L"");
-		case VT_I4:
-		return std::to_wstring(val.lVal);
-		case VT_R8:
-		return std::to_wstring(val.dblVal);
-		case VT_R4:
-		return std::to_wstring(val.fltVal);
-	}
-	return L"";
-}
-
 UIATextContentSerializer::UIATextContentSerializer(IUIAutomation* client, IUIAutomationTextPattern* textPattern) :
 	client(client), textPattern(textPattern),
 	treeWalker(UIA_GetRawViewWalker(client)),

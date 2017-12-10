@@ -10,6 +10,38 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 using namespace WEX::Logging;
 using namespace WEX::Common;
 
+CComPtr<IUIAutomationCondition> UIA_CreatePropertyCondition(IUIAutomation* client, PROPERTYID propertyID, const CComVariant& val) {
+	HRESULT res;
+	CComPtr<IUIAutomationCondition> condition;
+	res=client->CreatePropertyCondition(propertyID,val,&condition);
+	if (FAILED(res)) VERIFY_FAIL(L"IUIAutomation::CreatePropertyCondition");
+	return condition;
+}
+
+CComPtr<IUIAutomationCondition> UIA_CreateAndConditionFromArray(IUIAutomation* client, std::vector<IUIAutomationCondition*>& conditions) { 
+	HRESULT res;
+	CComPtr<IUIAutomationCondition> newCondition;
+	res = client->CreateAndConditionFromNativeArray(conditions.data(),static_cast<int>(conditions.size()),&newCondition);
+	if (FAILED(res)) VERIFY_FAIL(L"IUIAutomation::CreateAndCondition");
+	return newCondition;
+}
+
+CComPtr<IUIAutomationElement> UIAElement_FindFirst(IUIAutomationElement* element, TreeScope scope, IUIAutomationCondition* condition) {
+	HRESULT res;
+	CComPtr<IUIAutomationElement> found;
+	res=element->FindFirst(scope,condition,&found);
+	if (FAILED(res)) VERIFY_FAIL(L"IUIAutomationElement::FindFirst");
+	return found;
+}
+
+CComPtr<IUIAutomationElement> UIA_ElementFromHandle(IUIAutomation* client, HWND hwnd) {
+	HRESULT res;
+	CComPtr<IUIAutomationElement> element;
+	res = client->ElementFromHandle(hwnd,&element);
+	if (FAILED(res)) VERIFY_FAIL(L"IUIAutomation::ElementFromHandle");
+	return element;
+}
+
 CComPtr<IUnknown> UIAElement_GetCurrentPattern(IUIAutomationElement* element, int patternID) {
 	HRESULT res;
 	CComPtr<IUnknown> pattern;

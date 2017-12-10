@@ -14,8 +14,21 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 CComPtr<IUIAutomation> createUIAClient();
 // Times a function, logging its time and asserting it does not take longer than a maximum time
 void verifyTakesLessThan(const wchar_t* description, double expectedTime, std::function<void()> func);
-// Launches Edge and returns Edge's root window
-HWND launchEdgeWithURL(const wchar_t* URL);
-// Locates a document UIAElement with the given name, within the given Edge window.
-// This function keeps searching over and over until it finds the document or  a timeout exceeds.
-CComPtr<IUIAutomationElement> locateEdgeDocumentUIAElement(IUIAutomation* UIAClient, HWND edgeWindow, const wchar_t* documentName);
+
+// launches a UWP app given an app ID and parameters, and closes it on distruction
+class UWPApp {
+	public:
+	UWPApp(const wchar_t* appID, const wchar_t* params);
+	~UWPApp();
+	protected:
+	HWND appWindow{nullptr};
+	CHandle processHandle{0};
+};
+
+class UWPApp_Edge: public UWPApp {
+	protected:
+	static const wchar_t* appID;
+	public:
+	UWPApp_Edge(const wchar_t* URL);
+	CComPtr<IUIAutomationElement> locateDocumentUIAElement(IUIAutomation* UIAClient, const wchar_t* documentName);
+};

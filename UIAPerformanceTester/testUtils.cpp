@@ -35,21 +35,18 @@ void verifyTakesLessThan(const wchar_t* description, double expectedTime, std::f
 	VERIFY_IS_LESS_THAN(realTime, expectedTime, description);
 }
 
-void closeForegroundApp() {
-	HWND fg = GetForegroundWindow();
-	SendMessage(fg, WM_CLOSE, 0, 0);
-}
-
-HWND launchEdgeWithURL(const wchar_t* URL) {
+UWPApp::UWPApp(const wchar_t* appID, const wchar_t* params) {
 	CComPtr<IApplicationActivationManager> actMgr;
 	HRESULT res;
 	res = actMgr.CoCreateInstance(CLSID_ApplicationActivationManager, NULL, CLSCTX_INPROC_SERVER);
 	if(FAILED(res)) VERIFY_FAIL(L"CoCreateInstance of ApplicationActivationManager");
 	DWORD appProcessID = 0;
-	Log::Comment(L"Launching Edge");
-	res = actMgr->ActivateApplication(L"Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge", URL, AO_NONE, &appProcessID);
+	Log::Comment(L"launching app");
+	Log::Comment(appID);
+	res = actMgr->ActivateApplication(appID, params, AO_NONE, &appProcessID);
 	if (FAILED(res)) VERIFY_FAIL(L"IApplicationActivationManager::ActivateApplication");
-	HWND appWindow=nullptr;
+	processHandle.Attach(OpenProcess(SYNCHRONIZE | PROCESS_TERMINATE, false, appProcessID));
+	if(!processHandle) VERIFY_FAIL(L"Cannot open process for synchronization and termination");
 	wchar_t* lastErrorMsg=L"Unknown";
 	for(int tryCount=0;tryCount<50;++tryCount) {
 		HWND tempWindow=GetForegroundWindow();
@@ -70,11 +67,23 @@ HWND launchEdgeWithURL(const wchar_t* URL) {
 		Sleep(200);
 	}
 	if(!appWindow) VERIFY_FAIL(lastErrorMsg);
-	return appWindow;
 }
 
-CComPtr<IUIAutomationElement> locateEdgeDocumentUIAElement(IUIAutomation* UIAClient, HWND edgeWindow, const wchar_t* documentName) { 
-	CComPtr<IUIAutomationElement> edgeRoot = UIA_ElementFromHandle(UIAClient, edgeWindow);
+UWPApp::~UWPApp() {
+	SendMessage(appWindow,WM_CLOSE,0,0);
+	if(WaitForSingleObject(processHandle,10000)==WAIT_TIMEOUT) {
+		Log::Warning(L"Timed out waiting for process to die after WM_CLOSE, forcing termination");
+		TerminateProcess(processHandle,0);
+	}
+}
+
+const wchar_t* UWPApp_Edge::appID = L"Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
+
+UWPApp_Edge::UWPApp_Edge(const wchar_t* URL): UWPApp(UWPApp_Edge::appID,URL) {
+}
+
+CComPtr<IUIAutomationElement> UWPApp_Edge::locateDocumentUIAElement(IUIAutomation* UIAClient, const wchar_t* documentName) { 
+	CComPtr<IUIAutomationElement> edgeRoot = UIA_ElementFromHandle(UIAClient, appWindow);
 	if(!edgeRoot) VERIFY_FAIL(L"Can't get Edge's root UIA element");
 	CComPtr<IUIAutomationCondition> nameCondition = UIA_CreatePropertyCondition(UIAClient, UIA_NamePropertyId, documentName);
 	CComPtr<IUIAutomationCondition> controlTypeCondition = UIA_CreatePropertyCondition(UIAClient, UIA_ControlTypePropertyId, UIA_PaneControlTypeId);

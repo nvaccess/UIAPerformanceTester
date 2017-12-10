@@ -32,7 +32,7 @@ MODULE_SETUP(moduleInit) {
 // A TAEF test class for testing UI Automation in Microsoft Edge
 class EdgeDocument {
 	TEST_CLASS(EdgeDocument);
-	HWND edgeWindow{nullptr};
+	std::unique_ptr<UWPApp_Edge> edgeApp;
 
 	// A setup method for all tests in this class which Launches Microsoft Edge
 	// And loads a specific document for each test.
@@ -48,7 +48,7 @@ class EdgeDocument {
 		RuntimeParameters::TryGetValue(L"TestDeploymentDir", testDir);
 		std::wstringstream URL;
 		URL << L"file:///" << static_cast<const wchar_t*>(testDir) << L"\\testFiles\\" << static_cast<const wchar_t*>(testName) << L".html";
-		edgeWindow=launchEdgeWithURL(URL.str().c_str());
+		edgeApp=std::make_unique<UWPApp_Edge>(URL.str().c_str());
 		return true;
 	}
 
@@ -59,7 +59,7 @@ class EdgeDocument {
 		BEGIN_TEST_METHOD_PROPERTIES()
 			TEST_METHOD_PROPERTY(L"Description", L"Times fetching of document name")
 		END_TEST_METHOD_PROPERTIES()
-		CComPtr<IUIAutomationElement> document=locateEdgeDocumentUIAElement(UIAClient,edgeWindow,L"Edge Test Document");
+		CComPtr<IUIAutomationElement> document=edgeApp->locateDocumentUIAElement(UIAClient,L"Edge Test Document");
 		CComVariant nameVal;
 		Sleep(2000);
 		verifyTakesLessThan(L"IUIAutomationElement::get_currentPropertyValue", 0.005, [&] {
@@ -77,7 +77,7 @@ class EdgeDocument {
 			//TEST_METHOD_PROPERTY(L"Ignore", L"True")
 		END_TEST_METHOD_PROPERTIES()
 		// try and locate the loaded document 
-		CComPtr<IUIAutomationElement> document = locateEdgeDocumentUIAElement(UIAClient, edgeWindow, L"Horizontal Navbar");
+		CComPtr<IUIAutomationElement> document = edgeApp->locateDocumentUIAElement(UIAClient, L"Horizontal Navbar");
 		// Get the document's textPattern, and the textRange spanning the entire document
 		CComQIPtr<IUIAutomationTextPattern> textPattern = UIAElement_GetCurrentPattern(document, UIA_TextPatternId);
 		if (!textPattern) VERIFY_FAIL(L"document element has no text pattern");
@@ -115,8 +115,7 @@ class EdgeDocument {
 	}
 
 	TEST_METHOD_CLEANUP(methodCleanup) {
-		// Close the Edge window
-		SendMessage(edgeWindow,WM_CLOSE,0,0);
+		edgeApp=nullptr;
 		Beep(660,100);
 		return true;
 	}

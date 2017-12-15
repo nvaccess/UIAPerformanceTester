@@ -13,22 +13,25 @@ If a copy of the MPL was not distributed with this file, You can obtain one at h
 // Initializes a UIAutomation client instance, returning an IUIAutomation interface 
 CComPtr<IUIAutomation> createUIAClient();
 // Times a function, logging its time and asserting it does not take longer than a maximum time
-void verifyTakesLessThan(const wchar_t* description, double expectedTime, std::function<void()> func);
+void verifyTakesLessThan(std::wstring_view description, double expectedTime, std::function<void()> func);
 
 // launches a UWP app given an app ID and parameters, and closes it on distruction
 class UWPApp {
 	public:
-	UWPApp(const wchar_t* appID, const wchar_t* params);
+	UWPApp(std::wstring_view appID, std::wstring_view params, bool launchInWDAG);
 	~UWPApp();
 	protected:
 	HWND appWindow{nullptr};
 	CHandle processHandle{0};
+	private:
+	void initAsStandard(std::wstring_view appID, std::wstring_view params);
+	void initInWDAG(std::wstring_view appID, std::wstring_view params);
 };
 
 class UWPApp_Edge: public UWPApp {
 	protected:
-	static const wchar_t* appID;
+	static const std::wstring appID;
 	public:
-	UWPApp_Edge(const wchar_t* URL);
-	CComPtr<IUIAutomationElement> locateDocumentUIAElement(IUIAutomation* UIAClient, const wchar_t* documentName);
+	UWPApp_Edge(std::wstring_view URL, bool launchInWDAG=false);
+	CComPtr<IUIAutomationElement> locateDocumentUIAElement(IUIAutomation* UIAClient, std::wstring_view documentName);
 };

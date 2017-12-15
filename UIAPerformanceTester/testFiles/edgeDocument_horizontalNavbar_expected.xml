@@ -1,5 +1,5 @@
 <root>
-<UIAElement controlType="pane" name="Horizontal Navbar" >
+<UIAElement controlType="pane" name="UIAPerformanceTester:horizontalNavbar" >
 ...
 <UIAElement controlType="header" name="" >
 ...

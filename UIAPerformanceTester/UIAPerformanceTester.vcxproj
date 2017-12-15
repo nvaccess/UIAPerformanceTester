@@ -121,7 +121,8 @@
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Command>xcopy /f /d /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Message>Copy test files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,7 +144,8 @@
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Command>xcopy /f /d /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Message>Copy test files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -168,7 +170,8 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Command>xcopy /f /d /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Message>Copy test files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -193,7 +196,8 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Command>xcopy /f /d /y /i "$(ProjectDir)testFiles" "$(OutDir)\testFiles"</Command>
+      <Message>Copy test files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

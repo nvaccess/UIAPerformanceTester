@@ -30,54 +30,60 @@ MODULE_SETUP(moduleInit) {
 }
 
 // A TAEF test class for testing UI Automation in Microsoft Edge
-class EdgeDocument {
-	TEST_CLASS(EdgeDocument);
-	std::unique_ptr<UWPApp_Edge> edgeApp;
+class edgeDocument {
+	TEST_CLASS(edgeDocument);
+	// a public URL to the test files on the web.
+	// Edge in WDAG cannot read local files, thus they must be from the web.
+	const std::wstring testFilesURL{L"https://rawgit.com/nvaccess/UIAPerformanceTester/master/UIAPerformanceTester/testFiles/"};
 
-	// A setup method for all tests in this class which Launches Microsoft Edge
-	// And loads a specific document for each test.
-	// The documents should be named className_testName.html
-	// And be located in the testFiles directory under the project directory.
-	// These will be copied to the target directory to be picked up by TAEF.
+	// Setup method.
+	// Just beeps to denote a test is starting
 	TEST_METHOD_SETUP(methodInit) {
 		Beep(330,100);
-		WEX::Common::String testName;
-		RuntimeParameters::TryGetValue(L"TestName", testName);
-		testName.Replace(L"::", L"_");
-		WEX::Common::String testDir;
-		RuntimeParameters::TryGetValue(L"TestDeploymentDir", testDir);
-		std::wstringstream URL;
-		URL << L"file:///" << static_cast<const wchar_t*>(testDir) << L"\\testFiles\\" << static_cast<const wchar_t*>(testName) << L".html";
-		edgeApp=std::make_unique<UWPApp_Edge>(URL.str().c_str());
 		return true;
 	}
 
 	// A basic test to time the fetching of a document's name.
 	// This is really just to ensure that Edge launches and a test runs.
-	TEST_METHOD(DocumentName)
+	TEST_METHOD(documentName)
 	{
 		BEGIN_TEST_METHOD_PROPERTIES()
-			TEST_METHOD_PROPERTY(L"Description", L"Times fetching of document name")
+			TEST_METHOD_PROPERTY(L"Description", L"Times fetching of document name in standard Edge")
 		END_TEST_METHOD_PROPERTIES()
-		CComPtr<IUIAutomationElement> document=edgeApp->locateDocumentUIAElement(UIAClient,L"Edge Test Document");
+		// The title of the document being tested
+		const std::wstring docTitle{L"UIAPerformanceTester:documentName"};
+		// The URL to the document being tested
+	auto docURL=testFilesURL+L"edgeDocument_documentName.html";
+		// Launch standard Microsoft edge with the document's URL.
+		// Edge will close when this object goes out of scope.
+		auto edgeApp=UWPApp_Edge(docURL,false);
+		// Locate the document's UIAutomation element in Edge
+		auto document=edgeApp.locateDocumentUIAElement(UIAClient,docTitle);
+		// sleep one more second to ensure the document is fully loaded 
+		Sleep(1000);
 		CComVariant nameVal;
-		Sleep(2000);
+		// Time the fetching of the document's name property
 		verifyTakesLessThan(L"IUIAutomationElement::get_currentPropertyValue", 0.005, [&] {
 			nameVal = UIAElement_GetCurrentPropertyValue(document,UIA_NamePropertyId);
 		});
-		VERIFY_ARE_EQUAL(L"Edge Test Document", VariantToString(nameVal));
+		// ensure the name is what we expect.
+		VERIFY_ARE_EQUAL(docTitle, VariantToString(nameVal));
 	}
 
-	// A test to time the serialization of a horizontal navbar of links
-	// The second line of this document contains a horizontal navbar made up of a list of 7 links. 
-	TEST_METHOD(horizontalNavbar)
-	{
-		BEGIN_TEST_METHOD_PROPERTIES()
-			TEST_METHOD_PROPERTY(L"Description", L"Times fetching a line of links")
-			//TEST_METHOD_PROPERTY(L"Ignore", L"True")
-		END_TEST_METHOD_PROPERTIES()
-		// try and locate the loaded document 
-		CComPtr<IUIAutomationElement> document = edgeApp->locateDocumentUIAElement(UIAClient, L"Horizontal Navbar");
+	// a helper method to test how long it takes to serialize all content with UIAutomation from a horizontal navbar in Microsoft Edge.
+	// this horizontal navbar is a list containing 7 links.
+	// This method can either use standard Microsoft Edge, or Edge within Windows Defender Application Guard (WDAG).
+	// The method can also optionally dump the serialized content to a file (for regenerating the xpected output).
+	void testHorizontalNavbar_helper(bool inWDAG, bool shouldDumpToFile=false) {
+			// the title of the document being tested
+		const std::wstring docTitle{ L"UIAPerformanceTester:horizontalNavbar" };
+		// The URL of the document being tested
+		auto docURL = testFilesURL + L"edgeDocument_horizontalNavbar.html";
+		// Launch Microsoft Edge (either standard or WDAG) and load the document from the URL.
+		// Microsoft Edge will close when this object goes out of scope.
+		auto edgeApp = UWPApp_Edge(docURL, inWDAG);
+		// Locate the document's UIAutomation element in Edge.
+		auto document = edgeApp.locateDocumentUIAElement(UIAClient, docTitle);
 		// Get the document's textPattern, and the textRange spanning the entire document
 		CComQIPtr<IUIAutomationTextPattern> textPattern = UIAElement_GetCurrentPattern(document, UIA_TextPatternId);
 		if (!textPattern) VERIFY_FAIL(L"document element has no text pattern");
@@ -97,13 +103,13 @@ class EdgeDocument {
 		serializer.registerElementProperty(L"controlType", UIA_LocalizedControlTypePropertyId);
 		std::wstring content;
 		// sleep for a while to ensure the document is not using much CPU
-		Sleep(2000); 
+		Sleep(1000); 
 		// Time the serialization of the horizontal navbar 
-		verifyTakesLessThan(L"UIATextContentSerializer::serializeTextcontent", 0.3, [&] {
+		verifyTakesLessThan(L"UIATextContentSerializer::serializeTextcontent", 0.5, [&] {
 			content = serializer.serializeTextcontent(textRange);
 		});
 		// Write the serialized content to file
-		{
+		if(shouldDumpToFile) {
 			std::wofstream outFile("edgeDocument_horizontalNavbar_output.xml");
 			outFile << content;
 		}
@@ -114,8 +120,27 @@ class EdgeDocument {
 		VERIFY_ARE_EQUAL(0, content.compare(s.str()), L"Comparing serialized content");
 	}
 
+	// A test to time the serialization of a horizontal navbar of links in standard Microsoft Edge
+	TEST_METHOD(horizontalNavbar)
+	{
+		BEGIN_TEST_METHOD_PROPERTIES()
+			TEST_METHOD_PROPERTY(L"Description", L"Times fetching a line of links in standard Edge")
+		END_TEST_METHOD_PROPERTIES()
+		testHorizontalNavbar_helper(false);
+	}
+
+	// A test to time the serialization of a horizontal navbar of links in WDAG Edge
+	TEST_METHOD(WDAG_horizontalNavbar)
+	{
+		BEGIN_TEST_METHOD_PROPERTIES()
+			TEST_METHOD_PROPERTY(L"Description", L"Times fetching a line of links in Edge (WDAG)")
+		END_TEST_METHOD_PROPERTIES()
+		testHorizontalNavbar_helper(true);
+	}
+
+	// A cleanup method.
+	// Just beeps to denote when a test ends.
 	TEST_METHOD_CLEANUP(methodCleanup) {
-		edgeApp=nullptr;
 		Beep(660,100);
 		return true;
 	}

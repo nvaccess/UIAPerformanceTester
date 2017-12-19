@@ -43,7 +43,8 @@ void UWPApp::initAsStandard(std::wstring_view appID, std::wstring_view params) {
 	processHandle.Attach(OpenProcess(SYNCHRONIZE | PROCESS_TERMINATE, false, appProcessID));
 	if(!processHandle) VERIFY_FAIL(L"Cannot open process for synchronization and termination");
 	wchar_t* lastErrorMsg=L"Unknown";
-	for(int tryCount=0;tryCount<20;++tryCount) {
+	for(int tryCount=0;tryCount<30;++tryCount) {
+		if ((tryCount % 5) == 0) Log::Comment(String().Format(L"Searching for Edge window, try %d", tryCount));
 		HWND tempWindow=GetForegroundWindow();
 		wchar_t fgClassName[256]={0};
 		GetClassName(tempWindow,fgClassName,ARRAYSIZE(fgClassName));
@@ -71,7 +72,8 @@ void UWPApp::initInWDAG(std::wstring_view appID, std::wstring_view params) {
 	IsolatedAppLauncherTelemetryParameters telemetryParameters={TRUE,{0xff}};
 	VERIFY_SUCCEEDED(appLauncher->Launch(appID.data(), params.data(), &telemetryParameters));
 	wchar_t* lastErrorMsg = L"Unknown";
-	for (int tryCount = 0; tryCount<20; ++tryCount) {
+	for (int tryCount = 0; tryCount<60; ++tryCount) {
+		if((tryCount%5)==0) Log::Comment(String().Format(L"Searching for correct RAIL_WINDOW, try %d",tryCount));
 		EnumWindows([](HWND topWindow, LPARAM lParam) -> BOOL {
 			wchar_t tempBuf[256] = { 0 };
 			if(GetClassName(topWindow, tempBuf, ARRAYSIZE(tempBuf))>0&&wcscmp(tempBuf, L"RAIL_WINDOW") == 0) {

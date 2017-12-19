@@ -148,6 +148,7 @@ class edgeDocument {
 };
 
 MODULE_CLEANUP(moduleCleanup) {
+	UIAClient=nullptr;
 	CoUninitialize();
 	// Beep to indicate the end of the tests. 
 	Beep(880, 100);

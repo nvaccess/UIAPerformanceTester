@@ -47,13 +47,14 @@ class Tests {
 		return true;
 	}
 
-	TEST_METHOD(MSWord_readLine)
+	// Times fetching a line in MS word
+TEST_METHOD(MSWord_readLine)
 	{
 		BEGIN_TEST_METHOD_PROPERTIES()
 			TEST_METHOD_PROPERTY(L"Description", L"Times fetching of a complex line in MS Word")
 			END_TEST_METHOD_PROPERTIES()
 			// The URL of the document being tested
-			auto docURL = L"c:/users/mick/source/repos/UIAPerformanceTester/UIAPerformanceTester/testFiles/MSWord_tests.docx";
+			auto docURL = testFilesURL+L"MSWord_tests.docx";
 		// Launch Microsoft Word and load the document from the URL 
 		// Microsoft Word will close when this object goes out of scope.
 		auto wordApp = UWPApp_Word(docURL);
@@ -68,7 +69,7 @@ class Tests {
 		UIATextRange_MoveEndpointByRange(textRange, TextPatternRangeEndpoint_End, textRange, TextPatternRangeEndpoint_Start);
 		// Move to the second line
 		UIATextRange_Move(textRange, TextUnit_Line, 1);
-		// Expand to line (covering the horizontal navbar)
+		// Expand to line
 		UIATextRange_ExpandToEnclosingUnit(textRange, TextUnit_Line);
 		//Prepare a UIASerializer, setting the wanted text attributes and element properties
 		auto serializer = UIATextContentSerializer(UIAClient, textPattern);
@@ -89,7 +90,6 @@ class Tests {
 		outFile << content;
 		// Double check the content with the expected result
 		std::wifstream inFile("testFiles\\MSWord_readLine_expected.xml");
-		//inFile.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
 		inFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::generate_header>));
 		std::wstringstream s;
 		// Jump over the BOM mark
@@ -97,6 +97,57 @@ class Tests {
 		s << (inFile.rdbuf());
 		VERIFY_ARE_EQUAL(0, content.compare(s.str()), L"Comparing serialized content");
 	}
+
+// Times fetching a paragraph in MS word
+TEST_METHOD(MSWord_readParagraph)
+{
+	BEGIN_TEST_METHOD_PROPERTIES()
+		TEST_METHOD_PROPERTY(L"Description", L"Times fetching of a complex paragraph in MS Word")
+		END_TEST_METHOD_PROPERTIES()
+		// The URL of the document being tested
+		auto docURL = testFilesURL + L"MSWord_tests.docx";
+	// Launch Microsoft Word and load the document from the URL 
+	// Microsoft Word will close when this object goes out of scope.
+	auto wordApp = UWPApp_Word(docURL);
+	// Locate the document's UIAutomation element in Word.
+	auto document = wordApp.locateDocumentUIAElement(UIAClient);
+	// Get the document's textPattern, and the textRange spanning the entire document
+	CComQIPtr<IUIAutomationTextPattern> textPattern = UIAElement_GetCurrentPattern(document, UIA_TextPatternId);
+	if (!textPattern) VERIFY_FAIL(L"document element has no text pattern");
+	// Fetch the range for the document 
+	CComPtr<IUIAutomationTextRange> textRange = UIATextPattern_GetDocumentRange(textPattern);
+	// collapse the range to the start
+	UIATextRange_MoveEndpointByRange(textRange, TextPatternRangeEndpoint_End, textRange, TextPatternRangeEndpoint_Start);
+	// Move to the 5th line
+	UIATextRange_Move(textRange, TextUnit_Line, 4);
+	// Expand to paragraph
+	UIATextRange_ExpandToEnclosingUnit(textRange, TextUnit_Paragraph);
+	//Prepare a UIASerializer, setting the wanted text attributes and element properties
+	auto serializer = UIATextContentSerializer(UIAClient, textPattern);
+	serializer.registerTextAttribute(L"fontName", UIA_FontNameAttributeId);
+	serializer.registerTextAttribute(L"fontSize", UIA_FontSizeAttributeId);
+	serializer.registerElementProperty(L"name", UIA_NamePropertyId);
+	serializer.registerElementProperty(L"controlType", UIA_LocalizedControlTypePropertyId);
+	std::wstring content;
+	// sleep for a while to ensure the document is not using much CPU
+	Sleep(1000);
+	// Time the serialization of the line 
+	verifyTakesLessThan(L"UIATextContentSerializer::serializeTextcontent", maxLineTimeout*5, [&] {
+		content = serializer.serializeTextcontent(textRange);
+	});
+	// Write the serialized content to file
+	std::wofstream outFile("MSWord_readParagraph.xml");
+	outFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::generate_header>));
+	outFile << content;
+	// Double check the content with the expected result
+	std::wifstream inFile("testFiles\\MSWord_readParagraph_expected.xml");
+	inFile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::generate_header>));
+	std::wstringstream s;
+	// Jump over the BOM mark
+	inFile.get();
+	s << (inFile.rdbuf());
+	VERIFY_ARE_EQUAL(0, content.compare(s.str()), L"Comparing serialized content");
+}
 
 	// a helper method to test how long it takes to serialize all content with UIAutomation from a horizontal navbar in Microsoft Edge.
 	// this horizontal navbar is a list containing 7 links.

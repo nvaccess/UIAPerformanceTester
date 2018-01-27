@@ -148,7 +148,7 @@ UWPApp_Word::UWPApp_Word(std::wstring_view URL) {
 	if (!processHandle) VERIFY_FAIL(L"Cannot open process for synchronization and termination");
 	wchar_t* lastErrorMsg = L"Unknown";
 	for (int tryCount = 0; tryCount<30; ++tryCount) {
-		if ((tryCount % 5) == 0) Log::Comment(String().Format(L"Searching for Edge window, try %d", tryCount));
+		if ((tryCount % 5) == 0) Log::Comment(String().Format(L"Searching for MS Word window, try %d", tryCount));
 		HWND tempWindow = GetForegroundWindow();
 		wchar_t fgClassName[256] = { 0 };
 		GetClassName(tempWindow, fgClassName, ARRAYSIZE(fgClassName));

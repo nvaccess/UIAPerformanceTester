@@ -1,0 +1,105 @@
+﻿<root>
+<UIAElement controlType="page" name="Page 1" >
+...
+<UIAElement controlType="edit" name="Page 1 content" >
+...
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+Video provides a 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+powerful
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+way 
+</textRange>
+<textRange fontName="" fontSize="" >
+to help you prove 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+your point.
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ When you 
+</textRange>
+<UIAElement controlType="image" name="" >
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+click Online Video, you can 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+paste 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+in the embed code for the video 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+you
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ want to add. You can also type a keyword to 
+</textRange>
+<UIAElement controlType="link" name="search online" >
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+search online
+</textRange>
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ for the video that best fits your 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+document
+</textRange>
+<textRange fontName="" fontSize="" >
+. To make your document look professionally produced, Word provides header, footer, 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+cover
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ page, and 
+</textRange>
+<UIAElement controlType="link" name="text" >
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+text
+</textRange>
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ box designs that 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+complement
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ each other. 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+For example
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+, you can add a matching cover page, header, and sidebar. Click Insert and then choose the 
+</textRange>
+<UIAElement controlType="image" name="" >
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+elements 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+you
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ want from the different galleries. 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+Themes 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+and styles also help keep your document well-coordinated. 
+</textRange>
+...
+</UIAElement>
+...
+</UIAElement>
+</root>

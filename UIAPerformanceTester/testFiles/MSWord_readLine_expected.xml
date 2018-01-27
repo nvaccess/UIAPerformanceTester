@@ -1,0 +1,55 @@
+﻿<root>
+<UIAElement controlType="page" name="Page 1" >
+...
+<UIAElement controlType="edit" name="Page 1 content" >
+...
+<UIAElement controlType="link" name="Video" >
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+Video
+</textRange>
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ can 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+be 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+powerful
+</textRange>
+<textRange fontName="" fontSize="" >
+. This is an 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+embedded
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+image 
+</textRange>
+<UIAElement controlType="image" name="" >
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+ 
+</textRange>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+paste 
+</textRange>
+<textRange fontName="" fontSize="" >
+and 
+</textRange>
+<UIAElement controlType="link" name="search online" >
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+search online
+</textRange>
+</UIAElement>
+<textRange fontName="Segoe UI" fontSize="11.000000" >
+. 
+</textRange>
+...
+</UIAElement>
+...
+</UIAElement>
+</root>

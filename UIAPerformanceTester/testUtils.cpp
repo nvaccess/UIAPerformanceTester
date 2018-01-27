@@ -106,7 +106,7 @@ UWPApp::UWPApp(std::wstring_view appID, std::wstring_view params, bool launchInW
 }
 
 UWPApp::~UWPApp() {
-	VERIFY_WIN32_SUCCEEDED(SendMessage(appWindow,WM_CLOSE,0,0));
+	SendMessage(appWindow,WM_CLOSE,0,0);
 	if(WaitForSingleObject(processHandle,30000)==WAIT_TIMEOUT) {
 		Log::Warning(L"Timed out waiting for process to die after WM_CLOSE, forcing termination");
 		TerminateProcess(processHandle,0);
@@ -134,5 +134,62 @@ CComPtr<IUIAutomationElement> UWPApp_Edge::locateDocumentUIAElement(IUIAutomatio
 		Sleep(1000);
 	}
 	if(!document) VERIFY_FAIL(L"Can't locate Edge document");
+	return document;
+}
+
+const std::wstring UWPApp_Word::appID{ L"Microsoft.Office.Desktop_8wekyb3d8bbwe!Word" };
+
+UWPApp_Word::UWPApp_Word(std::wstring_view URL) {
+	CComPtr<IApplicationActivationManager> actMgr;
+	VERIFY_SUCCEEDED(actMgr.CoCreateInstance(CLSID_ApplicationActivationManager, NULL, CLSCTX_INPROC_SERVER));
+	DWORD appProcessID = 0;
+	VERIFY_SUCCEEDED(actMgr->ActivateApplication(appID.data(), URL.data(), AO_NONE, &appProcessID));
+	processHandle.Attach(OpenProcess(SYNCHRONIZE | PROCESS_TERMINATE, false, appProcessID));
+	if (!processHandle) VERIFY_FAIL(L"Cannot open process for synchronization and termination");
+	wchar_t* lastErrorMsg = L"Unknown";
+	for (int tryCount = 0; tryCount<30; ++tryCount) {
+		if ((tryCount % 5) == 0) Log::Comment(String().Format(L"Searching for Edge window, try %d", tryCount));
+		HWND tempWindow = GetForegroundWindow();
+		wchar_t fgClassName[256] = { 0 };
+		GetClassName(tempWindow, fgClassName, ARRAYSIZE(fgClassName));
+		if (wcscmp(fgClassName, L"OpusApp") == 0) {
+			DWORD tempProcessID = 0;
+			GetWindowThreadProcessId(tempWindow, &tempProcessID);
+			if (tempProcessID == appProcessID) {
+				appWindow = tempWindow;
+				break;
+			} else lastErrorMsg = L"Active ApplicationFrameHost is not hosting correct process";
+		}
+		else lastErrorMsg = L"No active ApplicationFrameHost window";
+		Beep(3000, 30);
+		Sleep(1000);
+	}
+	if (!appWindow) VERIFY_FAIL(lastErrorMsg);
+}
+
+UWPApp_Word::~UWPApp_Word() {
+	SendMessage(appWindow, WM_CLOSE, 0, 0);
+	if (WaitForSingleObject(processHandle, 30000) == WAIT_TIMEOUT) {
+		Log::Warning(L"Timed out waiting for process to die after WM_CLOSE, forcing termination");
+		TerminateProcess(processHandle, 0);
+	}
+}
+
+CComPtr<IUIAutomationElement> UWPApp_Word::locateDocumentUIAElement(IUIAutomation* UIAClient) {
+	CComPtr<IUIAutomationElement> edgeRoot = UIA_ElementFromHandle(UIAClient, appWindow);
+	if (!edgeRoot) VERIFY_FAIL(L"Can't get Edge's root UIA element");
+	CComPtr<IUIAutomationCondition> classNameCondition = UIA_CreatePropertyCondition(UIAClient, UIA_ClassNamePropertyId, L"_WwG");
+	CComPtr<IUIAutomationCondition> controlTypeCondition = UIA_CreatePropertyCondition(UIAClient, UIA_ControlTypePropertyId, UIA_DocumentControlTypeId);
+	CComPtr<IUIAutomationCondition> textPatternCondition = UIA_CreatePropertyCondition(UIAClient, UIA_IsTextPatternAvailablePropertyId, true);
+	std::vector<IUIAutomationCondition*> propertyConditions = { classNameCondition,controlTypeCondition,textPatternCondition };
+	CComPtr<IUIAutomationCondition> andCondition = UIA_CreateAndConditionFromArray(UIAClient, propertyConditions);
+	CComPtr<IUIAutomationElement> document;
+	for (int tryCount = 0; tryCount <= 20; ++tryCount) {
+		document = UIAElement_FindFirst(edgeRoot, TreeScope_Subtree, andCondition);
+		if (document) break;
+		Beep(3000, 30);
+		Sleep(1000);
+	}
+	if (!document) VERIFY_FAIL(L"Can't locate Edge document");
 	return document;
 }

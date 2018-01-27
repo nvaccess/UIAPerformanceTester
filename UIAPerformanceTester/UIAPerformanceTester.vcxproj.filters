@@ -61,17 +61,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="testFiles\edgeDocument_documentName.html">
-      <Filter>testFiles</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="testFiles\edgeDocument_horizontalNavbar.html">
+      <Filter>testFiles</Filter>
+    </None>
+    <None Include="testFiles\MSWord_tests.docx">
       <Filter>testFiles</Filter>
     </None>
   </ItemGroup>

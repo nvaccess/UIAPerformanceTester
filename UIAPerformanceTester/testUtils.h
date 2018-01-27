@@ -35,3 +35,15 @@ class UWPApp_Edge: public UWPApp {
 	UWPApp_Edge(std::wstring_view URL, bool launchInWDAG=false);
 	CComPtr<IUIAutomationElement> locateDocumentUIAElement(IUIAutomation* UIAClient, std::wstring_view documentName);
 };
+
+class UWPApp_Word {
+protected:
+	static const std::wstring appID;
+public:
+	UWPApp_Word(std::wstring_view URL);
+	~UWPApp_Word();
+	CComPtr<IUIAutomationElement> locateDocumentUIAElement(IUIAutomation* UIAClient);
+protected:
+	HWND appWindow{ nullptr };
+	CHandle processHandle{ 0 };
+};

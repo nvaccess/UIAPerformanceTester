@@ -67,10 +67,12 @@ TEST_METHOD(MSWord_readLine)
 		CComPtr<IUIAutomationTextRange> textRange = UIATextPattern_GetDocumentRange(textPattern);
 		// collapse the range to the start
 		UIATextRange_MoveEndpointByRange(textRange, TextPatternRangeEndpoint_End, textRange, TextPatternRangeEndpoint_Start);
-		// Move to the second line
-		UIATextRange_Move(textRange, TextUnit_Line, 1);
-		// Expand to line
-		UIATextRange_ExpandToEnclosingUnit(textRange, TextUnit_Line);
+		// Move to the second paragraph
+		UIATextRange_Move(textRange, TextUnit_Paragraph, 1);
+		// Expand to pargraph.
+		// Note that we expand to paragraph here rather than line just in case  we are on a small screen and the line is wrapped.
+		// this paragraph  only contains one line on average screens.
+		UIATextRange_ExpandToEnclosingUnit(textRange, TextUnit_Paragraph);
 		//Prepare a UIASerializer, setting the wanted text attributes and element properties
 		auto serializer = UIATextContentSerializer(UIAClient, textPattern);
 		serializer.registerTextAttribute(L"fontName", UIA_FontNameAttributeId);
@@ -118,8 +120,8 @@ TEST_METHOD(MSWord_readParagraph)
 	CComPtr<IUIAutomationTextRange> textRange = UIATextPattern_GetDocumentRange(textPattern);
 	// collapse the range to the start
 	UIATextRange_MoveEndpointByRange(textRange, TextPatternRangeEndpoint_End, textRange, TextPatternRangeEndpoint_Start);
-	// Move to the 5th line
-	UIATextRange_Move(textRange, TextUnit_Line, 4);
+	// Move to the 4th paragraph
+	UIATextRange_Move(textRange, TextUnit_Paragraph, 4);
 	// Expand to paragraph
 	UIATextRange_ExpandToEnclosingUnit(textRange, TextUnit_Paragraph);
 	//Prepare a UIASerializer, setting the wanted text attributes and element properties
